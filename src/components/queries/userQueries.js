@@ -25,7 +25,6 @@ const registerQuery = async ({
     {
       id: registerUser.id,
       isAdmin: registerUser.isAdmin,
-      posts: registerUser.posts,
     },
     process.env.WEB_TOKEN
   );
@@ -33,16 +32,15 @@ const registerQuery = async ({
   const updatedToken = {
     token,
     id: registerUser.id,
-    posts: registerUser.posts,
   };
   return updatedToken;
 };
 
-const loginUser = async (username, password) => {
-  console.log("Login:", username, password);
+const loginUser = async (email, password) => {
+  console.log("Login:", email, password);
   const user = await prisma.user.findUnique({
     where: {
-      username,
+      email,
     },
     include: {
       posts: true,
@@ -62,7 +60,6 @@ const loginUser = async (username, password) => {
     {
       id: user.id,
       isAdmin: user.isAdmin,
-      posts: user.posts,
     },
 
     process.env.WEB_TOKEN
@@ -70,7 +67,6 @@ const loginUser = async (username, password) => {
   const updatedToken = {
     token,
     id: user.id,
-    posts: user.posts,
     isAdmin: user.isAdmin,
   };
   return updatedToken;
